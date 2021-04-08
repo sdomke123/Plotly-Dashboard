@@ -1,3 +1,4 @@
+// Create a function to read the metadata to the demographic info panel
 function initMetadata(name) {    
     d3.json("./data/samples.json").then(data => {
         var metadata = data.metadata[data.names.indexOf(name)];
@@ -9,6 +10,7 @@ function initMetadata(name) {
     });
 };
 
+// Create a function to create the bar chart and the bubble chart for the selected ID
 function initCharts(name) {
     d3.json("./data/samples.json").then(data => {
         console.log(data.samples[data.names.indexOf(name)].otu_ids.slice(0, 10).reverse().map(otu => `OTU: ${otu}`));
@@ -42,6 +44,7 @@ function initCharts(name) {
     });
  };
 
+// Create a function that allows for selection via the drop down list
 function initSelection() {
     d3.json("./data/samples.json").then(data => {
         var IDs = data.names;
@@ -49,12 +52,15 @@ function initSelection() {
         IDs.forEach(ID => {
             selector.append("option").text(ID).property("value", ID);
     });
+
+    // Set the first ID to display on the home page
     const firstID = IDs[0];
     initCharts(firstID);
     initMetadata(firstID);
     });
 };
 
+// Create a function that displays a new selection
 function optionChanged(newSelection) {
     initCharts(newSelection);
     initMetadata(newSelection);
